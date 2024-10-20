@@ -1,0 +1,4 @@
+print current date, time, and unix timestamp in the first line; print "Hello Mike!" in the second line; collect user name with the message "Enter your name" in the third line; and say bye using the user name in the fourth line
+print current date, time, and unix timestamp in the first line; print "Hello Mike!" in the second line; and print "Bye!" in the third line
+give me code that fetches the EUR price in USD from the last week, and plot it into a graph
+give me code that fetches the EUR price in USD from the last week, and print the data in the console
