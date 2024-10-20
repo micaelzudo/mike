@@ -15,8 +15,11 @@ def coder_llm() -> str:
     except:
         return "llama3.1"
 
-def get_coder_agent() -> ConversableAgent:
-    llm_model = coder_llm()
+def get_coder_agent(model: str = "") -> ConversableAgent:
+    if model:
+        llm_model = model
+    else:
+        llm_model = coder_llm()
     return ConversableAgent(
         name="Developer",
         system_message="You are a helpful AI code writer. ",
@@ -31,8 +34,11 @@ def get_coder_agent() -> ConversableAgent:
     ]},
     )
 
-def get_tooler_agent() -> ConversableAgent:
-    llm_model = tooler_llm()
+def get_tooler_agent(model: str = "") -> ConversableAgent:
+    if model:
+        llm_model = model
+    else:
+        llm_model = tooler_llm()
     return ConversableAgent(
         name="Tooler",
         system_message="You are a helpful AI assistant. ",

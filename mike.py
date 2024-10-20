@@ -1,5 +1,4 @@
 import os
-from tkinter import W
 from lms_ag import get_coder_agent, get_tooler_agent, get_local_executor_agent, get_human_agent, register_llm_tool, tooler_llm, coder_llm
 from lms_stdout import lms_stdout
 
@@ -7,8 +6,8 @@ std_out_lms = lms_stdout()
 
 working_folder = "/mike/working"
 
-developer = get_coder_agent()
-tooler = get_tooler_agent()
+developer = get_coder_agent("llama3.2")
+tooler = get_tooler_agent("llama3.2")
 executor = get_local_executor_agent(working_folder)
 human = get_human_agent()
     
