@@ -6,8 +6,8 @@ std_out_lms = lms_stdout()
 
 working_folder = "/mike/working"
 
-developer = get_coder_agent("llama3.2")
-tooler = get_tooler_agent("llama3.2")
+developer = get_coder_agent()
+tooler = get_tooler_agent()
 executor = get_local_executor_agent(working_folder)
 human = get_human_agent()
     
@@ -85,14 +85,14 @@ print("Models:\tCoder: " + coder_llm() + "\tTooler: " + tooler_llm())
 print("Say 'exit' to quit\n")
 
 # user_input_list = ["give me code that fetches the EUR price in USD from the last week, and plot it into a graph"]
-user_input_list = ["create the python file \"hi.py\""]
+# user_input_list = ["create the python file \"hi.py\""]
 # user_input_list = ["run the python file \"helo.py\"", "run the python file \"by.py\""]
 # user_input_list = []
 
 app_running = True
 while app_running:
     print("\nEnter your commands one per line, followed by an empty line")
-    # user_input_list = []
+    user_input_list = []
     user_input = ""
     while len(user_input) != 0 or len(user_input_list) == 0:
         user_input = input(">>> ")
@@ -109,4 +109,4 @@ while app_running:
             print("\nQuitting... Bye")
             app_running = False
     
-    user_input_list = []#remove
+    # user_input_list = []#remove
