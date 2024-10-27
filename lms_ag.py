@@ -1,57 +1,37 @@
-import os
-
 from autogen import ConversableAgent
 from autogen.coding import LocalCommandLineCodeExecutor
 
-def tooler_llm() -> str:
-    try:
-        return os.environ["LLM_TOOLER"]
-    except:
-        return "llama3.1"
+import defaults
 
-def coder_llm() -> str:
-    try:
-        return os.environ["LLM_CODER"]
-    except:
-        return "llama3.1"
-
-def get_coder_agent(model: str = "") -> ConversableAgent:
-    if model:
-        llm_model = model
-    else:
-        llm_model = coder_llm()
+def get_agent(name:             str = "agent",
+              model:            str = defaults.general_llm,
+              system_message:   str = "You are a helpful AI assistant",
+              host:             str = "127.0.0.1") -> ConversableAgent:
     return ConversableAgent(
-        name="Developer",
-        system_message="You are a helpful AI code writer. ",
+        name=name,
+        system_message=system_message,
         # max_consecutive_auto_reply=1,
         human_input_mode="NEVER",
         llm_config={"config_list": [
         {
-            "model": llm_model,
+            "model": model,
             "api_type": "ollama",
-            "client_host": os.environ["OLLAMA_HOST"]
+            "client_host": host
         }
     ]},
     )
 
-def get_tooler_agent(model: str = "") -> ConversableAgent:
-    if model:
-        llm_model = model
-    else:
-        llm_model = tooler_llm()
-    return ConversableAgent(
-        name="Tooler",
-        system_message="You are a helpful AI assistant. ",
-        max_consecutive_auto_reply=1,
-        human_input_mode="NEVER",
-        llm_config={"config_list": [
-        {
-            "model": llm_model,
-            "api_type": "ollama",
-            "client_host": os.environ["OLLAMA_HOST"]
-        }
-    ]},
-    )
+def get_coder_agent(name:           str = "coder",
+                    model:          str = defaults.coder_llm,
+                    system_message: str = "You are a helpful AI code writer",
+                    host:           str = "127.0.0.1") -> ConversableAgent:
+    return get_agent(name = name, model = model, system_message = system_message, host = host)
+
+def get_tooler_agent(name:              str = "tooler",
+                     model:             str = defaults.tooler_llm,
+                     system_message:    str = "You are a helpful AI assistant",
+                     host:              str = "127.0.0.1") -> ConversableAgent:
+    return get_agent(name = name, model = model, system_message = system_message, host = host)
 
 def get_local_executor_agent(working_folder: str = ".") -> ConversableAgent:
     executor_commandline = LocalCommandLineCodeExecutor(
@@ -59,23 +39,23 @@ def get_local_executor_agent(working_folder: str = ".") -> ConversableAgent:
         work_dir=working_folder,
     )
     return ConversableAgent(
-        name="Executor",
+        name="executor",
         llm_config=False,
         code_execution_config={"executor": executor_commandline},  # Use the local command line code executor.
-        max_consecutive_auto_reply=1,
+        # max_consecutive_auto_reply=1,
         human_input_mode="NEVER",
     )
 
-
 def get_human_agent() -> ConversableAgent:
     return ConversableAgent(
-        name="Human",
+        name="human",
         llm_config=False,
         code_execution_config=False,
         human_input_mode="ALWAYS",
     )
 
-def register_llm_tool(tooler: ConversableAgent, executor: ConversableAgent, function: callable, function_name: str, function_desc: str):
+def register_llm_tool(tooler: ConversableAgent, executor: ConversableAgent,
+                      function: callable, function_name: str, function_desc: str):
     tooler.register_for_llm(name=function_name, description=function_desc)(function)
     executor.register_for_execution(name=function_name)(function)
 

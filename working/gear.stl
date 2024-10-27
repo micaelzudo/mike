@@ -1,0 +1,33 @@
+# (Tire Rim Mesh)
+mesh
+{
+    cylinder(h=10, r=20);
+    translate([-40, -30, -5]) rotate([90, 0, 0]) cube( size = [40, 4, 2] );
+}
+
+# (Tire Tread Mesh)
+mesh
+{
+    for($t = 0; $t < 10; $t++)
+    {
+        translate([cos(3.14 / 5 * $t) * 10, sin(3.14 / 5 * $t) * 5, -2])
+        cube( size = [1, 1, 4] );
+    }
+}
+
+# (Tire Sidewall Mesh)
+mesh
+{
+    for($t = 0; $t < 10; $t++)
+    {
+        translate([cos(3.14 / 5 * $t) * 10, sin(3.14 / 5 * $t) * 5, -4])
+        cube( size = [1, 1, 6] );
+    }
+}
+
+# (Tire Body Mesh)
+mesh
+{
+    cylinder(h=20, r=40);
+    translate([45, 0, -10]) rotate([90, 0, 0]) cylinder(h=20, r=40);
+}

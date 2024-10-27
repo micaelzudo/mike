@@ -1,29 +1,16 @@
 import os
-from lms_ag import get_coder_agent, get_tooler_agent, get_local_executor_agent, get_human_agent, register_llm_tool
+# from lms_ag import get_coder_agent, get_tooler_agent, get_local_executor_agent, get_human_agent, register_llm_tool
+from lms_agent import lms_autogen_agent
 from lms_stdout import lms_stdout
 
 std_out_lms = lms_stdout()
 
 working_folder = "/mike/working"
 
-# from autogen import ConversableAgent
-# developer = ConversableAgent(
-#         name="Developer",
-#         system_message="You are a helpful AI code writer. ",
-#         # max_consecutive_auto_reply=1,
-#         human_input_mode="NEVER",
-#         llm_config={"config_list": [
-#         {
-#             "model": "phi3:14b",
-#             "api_type": "ollama",
-#             "client_host": "192.168.0.41"
-#         }
-#     ]},
-#     )
-developer = get_coder_agent()
-tooler = get_tooler_agent()
-executor = get_local_executor_agent(working_folder)
-human = get_human_agent()
+developer = lms_autogen_agent()
+# tooler = get_tooler_agent()
+# executor = get_local_executor_agent(working_folder)
+# human = get_human_agent()
     
 def list_files() -> str:
     return os.listdir(working_folder);
@@ -83,16 +70,16 @@ def create_python_file(file_name: str) -> str:
             done = True
     return file_execution_output;
 
-register_llm_tool(tooler, executor, list_files, "list_files",
-                  "A function that lists the files in the working folder")
-register_llm_tool(tooler, executor, read_file, "read_file",
-                  "A function that reads the contents of a file in the working folder")
-register_llm_tool(tooler, executor, write_file, "write_file",
-                  "A function that writes content to a file in the working folder")
-register_llm_tool(tooler, executor, run_python_file, "run_python_file",
-                  "A function that runs python files in the working folder")
-register_llm_tool(tooler, executor, create_python_file, "create_python_file",
-                  "A function that creates a python file in the working folder")
+# register_llm_tool(tooler, executor, list_files, "list_files",
+#                   "A function that lists the files in the working folder")
+# register_llm_tool(tooler, executor, read_file, "read_file",
+#                   "A function that reads the contents of a file in the working folder")
+# register_llm_tool(tooler, executor, write_file, "write_file",
+#                   "A function that writes content to a file in the working folder")
+# register_llm_tool(tooler, executor, run_python_file, "run_python_file",
+#                   "A function that runs python files in the working folder")
+# register_llm_tool(tooler, executor, create_python_file, "create_python_file",
+#                   "A function that creates a python file in the working folder")
             
 print("Milu's Code Generator v0.1b\n")
 # print("Models:\tCoder: " + coder_llm() + "\tTooler: " + tooler_llm())
@@ -112,13 +99,12 @@ while app_running:
         user_input = input(">>> ")
         if len(user_input) != 0:
             user_input_list.append(user_input)
-        if user_input == "exit":
+        # if user_input == "exit":
             break
 
     for user_input_line in user_input_list:
         if user_input_line != 'exit':
-            chat_result = executor.initiate_chat(tooler, message=user_input_line, silent=False)
-            print(chat_result.summary)
+            print("\n" + developer.query(message=user_input_line))
         else:
             print("\nQuitting... Bye")
             app_running = False
