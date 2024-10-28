@@ -1,74 +1,16 @@
-import os
 # from lms_ag import get_coder_agent, get_tooler_agent, get_local_executor_agent, get_human_agent, register_llm_tool
-from lms_agent import lms_autogen_agent
+from lms_agent import lms_autogen_agent, lms_autogen_tooler, lms_autogen_coder
+from lms_agent_tools import working_folder, lms_stdout as std_out_lms
 from lms_stdout import lms_stdout
 
 std_out_lms = lms_stdout()
 
 working_folder = "/mike/working"
 
-developer = lms_autogen_agent()
-# tooler = get_tooler_agent()
+# developer = lms_autogen_agent()
+tooler = lms_autogen_tooler()
 # executor = get_local_executor_agent(working_folder)
 # human = get_human_agent()
-    
-def list_files() -> str:
-    return os.listdir(working_folder);
-
-def read_file(file_name: str) -> str:
-    with open(working_folder + "/" + file_name, "r") as file:
-        return file.read()
-    
-def write_file(file_name: str, file_contents: str) -> bool:
-    file = open(working_folder + "/" + file_name, "w")
-    file.write(file_contents)
-    file.close()
-    return True;
-
-def run_python_file(file_name: str) -> str:
-    std_out_lms.mark_data_as_read()
-    with open(working_folder + "/" + file_name) as file:
-        try:
-            exec(file.read())
-        except Exception as e:
-            print("Exception: " + str(e))
-    execution_output = std_out_lms.get_unread_data()
-    write_file(file_name + ".txt", execution_output)
-    return execution_output
-
-def create_python_file(file_name: str) -> str:
-    print("Creating python file " + file_name)
-    developer.clear_history()
-    prompt_message = "DEV: Tell me your Python algorithm. Type 'exit' when the code is right"
-    chat_message = str("You will write Python code. "
-    "Give only the code. Do not use code block delimiters. Do not give explanation. "
-    "The code algorithm is: ")
-    file_execution_output = ""
-    done = False
-    while not done:
-        print(prompt_message)
-        python_file_chat_result = human.initiate_chat(developer, clear_history=False, message=chat_message + input("DEV> "))
-        write_file(file_name, python_file_chat_result.summary)
-        cmd = input("Hit Enter to run the script, or type 'exit' to finish: ")
-        if cmd != "exit":
-            while True:
-                print("Running the python file " + file_name + "... ")
-                file_execution_output = run_python_file(file_name)
-                cmd = input("Hit Enter to give feedback and send the script execution output to the developer, "
-                            "type 'run' to execute the script again, or type 'exit' to finish: ")
-                if cmd == "exit":
-                    done = True
-                    break
-                elif cmd == "run":
-                    continue
-                else:
-                    chat_message = "The code was executed and the output was:\n```output\n" + file_execution_output + "\n```\n"
-                    prompt_message = str("DEV: Give feedback about the last code, or hit enter to submit just the execution output. "
-                    "Say 'exit' when the code is right: ")
-                    break
-        else:
-            done = True
-    return file_execution_output;
 
 # register_llm_tool(tooler, executor, list_files, "list_files",
 #                   "A function that lists the files in the working folder")
@@ -82,7 +24,6 @@ def create_python_file(file_name: str) -> str:
 #                   "A function that creates a python file in the working folder")
             
 print("Milu's Code Generator v0.1b\n")
-# print("Models:\tCoder: " + coder_llm() + "\tTooler: " + tooler_llm())
 print("Say 'exit' to quit\n")
 
 # user_input_list = ["give me code that fetches the EUR price in USD from the last week, and plot it into a graph"]
@@ -104,7 +45,7 @@ while app_running:
 
     for user_input_line in user_input_list:
         if user_input_line != 'exit':
-            print("\n" + developer.query(message=user_input_line))
+            print("\n" + tooler.query(message=user_input_line))
         else:
             print("\nQuitting... Bye")
             app_running = False
