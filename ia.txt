@@ -1,0 +1,10 @@
+Este é um projeto de uma interface de texto para interação com IA e tarefas predefinidas.
+Essa interface será projetada para rodar "scripts" próprios, e também para rodar em terminal.
+A princípio, a classe base escolhida foi a cmd.Cmd, padrão do Python.
+A ideia é utilizar comandos como de assembly, em que comandos de mesmo nome podem receber número variável de parâmetros;
+mas internamente, serão funções diferentes.
+
+As classes que lidam com a IA e agents já existem, estão funcionais para texto, e a documentação
+mostra que o framework já tem suporte a extração de blocos de código; isso deve ser testado neste projeto.
+Como as classes de IA apenas recebem e devolvem texto, não tendo nenhum terminal ou ferramenta própria,
+elas serão incorporadas a este terminal, se tornando componentes dele.

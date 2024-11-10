@@ -3,13 +3,14 @@ import sys
 class lms_stdout():
     former_stdout = sys.stdout
     former_stderr = sys.stderr
+    
     def __init__(self):
         sys.stdout = self
         sys.stderr = self
         
-    def __del__(self):
-        sys.stdout = lms_stdout.former_stdout
-        sys.stderr = lms_stdout.former_stderr
+    # def __del__(self):
+        # sys.stdout = lms_stdout.former_stdout # AttributeError: 'NoneType' object has no attribute 'former_stdout' # after file was put inside lms folder
+        # sys.stderr = lms_stdout.former_stderr # AttributeError: 'NoneType' object has no attribute 'former_stdout' # after file was put inside lms folder
 
     def write(self,string):
         lms_stdout.former_stdout.write(string)
@@ -36,3 +37,4 @@ class lms_stdout():
 
     def mark_data_as_read(self):
         self.get_unread_data()
+

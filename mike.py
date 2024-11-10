@@ -1,9 +1,9 @@
-from lms_core import lms
-from lms_agent import lms_autogen_agent, lms_autogen_tooler, lms_autogen_coder
-from lms_stdout import lms_stdout
+from lms.core import store
+from lms.agent import lms_autogen_tooler
+from lms import io
 
-lms["stdout"] = lms_stdout()
-lms["working_folder"] = "/mike/working"
+store["stdout"] = io.lms_stdout()
+store["working_folder"] = "/mike/working"
 
 tooler = lms_autogen_tooler()
 
@@ -22,7 +22,6 @@ while app_running:
             user_input_list.append(user_input)
         # if user_input == "exit":
             break
-
     for user_input_line in user_input_list:
         if user_input_line != 'exit':
             print("\n" + tooler.query(message=user_input_line))

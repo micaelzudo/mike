@@ -1,7 +1,7 @@
 from autogen import ConversableAgent
 from autogen.coding import LocalCommandLineCodeExecutor
 
-import defaults
+import lms.defaults as defaults
 
 def get_agent(name:             str = "agent",
               model:            str = defaults.general_llm,
