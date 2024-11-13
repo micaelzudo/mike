@@ -36,7 +36,7 @@ def get_tooler_agent(name:              str = "tooler",
                      max_replies:       int = 1) -> ConversableAgent:
     return get_agent(name = name, model = model, system_message = system_message, host = host, max_replies = max_replies)
 
-def get_local_executor_agent(working_folder: str = ".", max_replies: int = 1) -> ConversableAgent:
+def get_local_executor_agent(working_folder: str = defaults.working_dir, max_replies: int = 1) -> ConversableAgent:
     executor_commandline = LocalCommandLineCodeExecutor(
         timeout=10,  # Timeout for each code execution in seconds.
         work_dir=working_folder,

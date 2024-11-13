@@ -1,5 +1,5 @@
 import lms.defaults as defaults
-from lms.core import store
+# from lms.core import store
 from lms.autogen import (get_agent as get_autogen_agent,
                          get_human_agent as get_autogen_human_agent,
                          get_local_executor_agent as get_autogen_local_executor_agent,
@@ -36,6 +36,8 @@ class lms_autogen_agent(lms_agent):
             request_reply = True,
             silent = True)
         return self.human_agent_instance.last_message(agent = self.agent_instance)["content"]
+    # def __call__(self, message: str) -> str:
+    #     return self.query(message)
     def clear_history(self, recipient = None, n_messages_to_keep: int = None):
         self.human_agent_instance.clear_history(recipient = self.agent_instance,
             nr_messages_to_preserve = n_messages_to_keep if n_messages_to_keep else 0)
@@ -58,7 +60,7 @@ class lms_autogen_tooler(lms_autogen_agent):
                  system_message:    str = "You are a helpful AI assistant",
                  host:              str = "127.0.0.1",
                  max_replies:       int = 1,
-                 working_folder:    str = store["working_folder"]):
+                 working_folder:    str = defaults.working_dir):
         super().__init__(name=name, model=model, system_message=system_message, host=host, max_replies=max_replies)
         from lms.agent_tools import tool_dict
         self.executor_instance = get_autogen_local_executor_agent(working_folder)

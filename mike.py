@@ -1,9 +1,10 @@
 from lms.core import store
 from lms.agent import lms_autogen_tooler
 from lms import io
+import lms.defaults as defaults
 
 store["stdout"] = io.lms_stdout()
-store["working_folder"] = "/mike/working"
+store["working_folder"] = defaults.working_dir
 
 tooler = lms_autogen_tooler()
 
