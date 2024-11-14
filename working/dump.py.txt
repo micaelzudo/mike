@@ -1,0 +1,71 @@
+Integer:
+Data Type: int
+Variable Content: 10
+
+10
+
+Float:
+Data Type: float
+Variable Content: 3.14
+
+3.14
+
+String:
+Data Type: str
+Variable Content: Hello, World!
+
+Hello, World!
+
+Complex Number:
+Data Type: complex
+Variable Content: (1+2j)
+
+(1+2j)
+
+List of integers:
+Data Type: list
+Variable Content: [1, 2, 3]
+
+<class 'list'>(1, 2, 3)
+
+Tuple of strings:
+Data Type: tuple
+Variable Content: ('hello', 'world')
+
+<class 'tuple'>(hello, world)
+
+Dictionary with string keys and integer values:
+Data Type: dict
+Variable Content: {'key': 10, 'other_key': 20}
+
+<class 'dict'>(key: 10, other_key: 20)
+
+Set of unique integers:
+Data Type: set
+Variable Content: {1, 2, 3, 4, 5}
+
+{1, 2, 3, 4, 5}
+
+Boolean value:
+Data Type: bool
+Variable Content: True
+
+1
+
+Bytes object:
+Data Type: bytes
+Variable Content: b'Hello, World!'
+
+b'Hello, World!'
+
+Byte array object:
+Data Type: bytearray
+Variable Content: bytearray(b'Hello, World!')
+
+bytearray(b'Hello, World!')
+
+Memory view object:
+Data Type: memoryview
+Variable Content: <memory at 0x000001F9B3630400>
+
+<memory at 0x000001F9B3630340>
