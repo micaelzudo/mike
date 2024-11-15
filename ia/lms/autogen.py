@@ -1,5 +1,6 @@
 from autogen import ConversableAgent
 from autogen.coding import LocalCommandLineCodeExecutor
+from autogen.coding.base import CodeExtractor
 
 import lms.defaults as defaults
 

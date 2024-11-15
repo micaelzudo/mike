@@ -30,11 +30,11 @@ class lms_autogen_agent(lms_agent):
         super().__init__(name=name, model=model, system_message=system_message, host=host, max_replies=max_replies, framework = "autogen")
         self.agent_instance = get_autogen_agent(name=name, model=model, system_message=system_message, host=host, max_replies=max_replies)
         self.human_agent_instance = get_autogen_human_agent()
-    def query(self, message: str) -> str:
+    def query(self, message: str, silent: bool = True, reply: bool = True) -> str:
         self.human_agent_instance.send(message=message,
             recipient = self.agent_instance,
-            request_reply = True,
-            silent = True)
+            request_reply = reply,
+            silent = silent)
         return self.human_agent_instance.last_message(agent = self.agent_instance)["content"]
     # def __call__(self, message: str) -> str:
     #     return self.query(message)
@@ -72,3 +72,20 @@ class lms_autogen_tooler(lms_autogen_agent):
         chat_result = self.executor_instance.initiate_chat(
             self.agent_instance, message=message, silent=True)
         return chat_result.summary
+
+def get_code_blocks(message: str) -> list:
+    start = 0
+    blocks = []
+    while True:
+        start = message.find("```", start)
+        if start != -1:
+            next_line_start = message.find("\n", start) + 1
+            end = message.find("```", next_line_start)
+            if end != -1:
+                blocks.append(message[next_line_start:end])
+                start = end + 3
+            else:
+                break
+        else:
+            break
+    return blocks
