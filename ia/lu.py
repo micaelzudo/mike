@@ -1,4 +1,4 @@
-from lms.agent_terminal import get_agent_terminal
+from lms.terminal import get_agent_terminal
 import asyncio
 
 async def main():
